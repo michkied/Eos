@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "EosApp (Flutter Pixel)",
+            "program": "lib/main.dart",
+            "cwd": "eos_app",
+            "deviceId": "Pixel 8",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "EosApp (Flutter Chrome)",
+            "program": "lib/main.dart",
+            "cwd": "eos_app",
+            "deviceId": "chrome",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "EosApp (Flutter Windows)",
+            "program": "lib/main.dart",
+            "cwd": "eos_app",
+            "deviceId": "windows",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}
