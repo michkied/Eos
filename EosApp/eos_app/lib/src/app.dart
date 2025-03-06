@@ -6,15 +6,17 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
+import 'connection/connection_controller.dart';
 
-/// The Widget that configures your application.
 class MyApp extends StatelessWidget {
   const MyApp({
     super.key,
     required this.settingsController,
+    required this.connectionController,
   });
 
   final SettingsController settingsController;
+  final ConnectionController connectionController;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,7 @@ class MyApp extends StatelessWidget {
                 ColorPicker(
                   pickerColor: Colors.red,
                   onColorChanged: (Color color) {
-                    // Handle color change
+                    connectionController.color = color;
                   },
                   colorPickerWidth: 400,
                   pickerAreaHeightPercent: 0.7,
@@ -83,25 +85,6 @@ class MyApp extends StatelessWidget {
               ],
             ),
           ),
-
-          // // Define a function to handle named routes in order to support
-          // // Flutter web url navigation and deep linking.
-          // onGenerateRoute: (RouteSettings routeSettings) {
-          //   return MaterialPageRoute<void>(
-          //     settings: routeSettings,
-          //     builder: (BuildContext context) {
-          //       switch (routeSettings.name) {
-          //         case SettingsView.routeName:
-          //           return SettingsView(controller: settingsController);
-          //         case SampleItemDetailsView.routeName:
-          //           return const SampleItemDetailsView();
-          //         case SampleItemListView.routeName:
-          //         default:
-          //           return const SampleItemListView();
-          //       }
-          //     },
-          //   );
-          // },
         );
       },
     );
