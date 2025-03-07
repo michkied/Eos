@@ -10,14 +10,11 @@ app = Flask(__name__)
 pixels = neopixel.NeoPixel(board.D18, 45)
 
 @app.route('/', methods=['POST'])
-def hello_world():  # put application's code here
-    print('siema')
+def fill():  # put application's code here
     print(request.data)
     data = json.loads(request.data)
-    # pixels.fill((0, 255, 153))
-    # pixels.fill((255, 15, 110))
     pixels.fill((data['red'], data['blue'], data['green']))
-    return 'Hello World!'
+    return 'ok'
 
 @app.after_request
 def after_request(response):
