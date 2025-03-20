@@ -77,7 +77,7 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -90,7 +90,6 @@ class _MyAppState extends State<MyApp> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          // Handle add color button press
                           widget.settingsController.addColorPreset(
                             ColorPreset(
                               red: (widget.connectionController.color.r * 255)
@@ -104,9 +103,51 @@ class _MyAppState extends State<MyApp> {
                           );
                           _presetNameController.clear();
                         },
-                        child: const Text('Add Color'),
+                        child: const Text('Save'),
+                      ),
+                      SizedBox(width: 10.0),
+                      ElevatedButton(
+                        onPressed: () async {
+                          String data =
+                              await widget.connectionController.pullColor();
+                          widget.settingsController.addColorPreset(
+                            ColorPreset(
+                              red: (widget.connectionController.color.r * 255)
+                                  .toInt(),
+                              green: (widget.connectionController.color.g * 255)
+                                  .toInt(),
+                              blue: (widget.connectionController.color.b * 255)
+                                  .toInt(),
+                              label: _presetNameController.text,
+                              dataString: data,
+                            ),
+                          );
+                          _presetNameController.clear();
+                        },
+                        child: const Text('Pull'),
                       ),
                     ],
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
+                  child: RangeSlider(
+                    labels: RangeLabels(
+                      widget.connectionController.range.start
+                          .round()
+                          .toString(),
+                      widget.connectionController.range.end.round().toString(),
+                    ),
+                    min: 0,
+                    max: 44,
+                    divisions: 44,
+                    values: widget.connectionController.range,
+                    onChanged: (RangeValues values) {
+                      setState(() {
+                        widget.connectionController.range = values;
+                      });
+                    },
                   ),
                 ),
                 Expanded(
@@ -148,19 +189,28 @@ class _MyAppState extends State<MyApp> {
                               ),
                             ),
                             onPressed: () {
-                              widget.connectionController.color =
-                                  Color.fromRGBO(
-                                widget
-                                    .settingsController.colorPresets[index].red,
-                                widget.settingsController.colorPresets[index]
-                                    .green,
-                                widget.settingsController.colorPresets[index]
-                                    .blue,
-                                1,
-                              );
-                              setState(() {
-                                pickerColor = widget.connectionController.color;
-                              });
+                              if (widget.settingsController.colorPresets[index]
+                                  .dataString.isNotEmpty) {
+                                widget.connectionController.dataString = widget
+                                    .settingsController
+                                    .colorPresets[index]
+                                    .dataString;
+                              } else {
+                                widget.connectionController.color =
+                                    Color.fromRGBO(
+                                  widget.settingsController.colorPresets[index]
+                                      .red,
+                                  widget.settingsController.colorPresets[index]
+                                      .green,
+                                  widget.settingsController.colorPresets[index]
+                                      .blue,
+                                  1,
+                                );
+                                setState(() {
+                                  pickerColor =
+                                      widget.connectionController.color;
+                                });
+                              }
                             },
                             onLongPress: () {
                               widget.settingsController.removeColorPreset(widget
